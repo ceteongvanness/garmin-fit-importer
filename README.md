@@ -31,26 +31,50 @@ pip install garminconnect fitparse
 
 ## Usage
 
+Put your `.fit` files in the `fit_files` folder (subfolders are fine):
+
+```
+garmin-fit-importer/
+├── garmin_fit_import.py
+├── README.md
+└── fit_files/
+    ├── intervals.fit
+    ├── tempo.fit
+    └── morning_run.fit
+```
+
+Then run:
+
 ```bash
 # Preview: parse everything, upload nothing
-python garmin_fit_import.py ~/fit_files --dry-run
+python garmin_fit_import.py --dry-run
 
 # Import all workouts and activities
-python garmin_fit_import.py ~/fit_files
+python garmin_fit_import.py
 
 # Import only workouts (or only activities)
-python garmin_fit_import.py ~/fit_files --only workout
-python garmin_fit_import.py ~/fit_files --only activity
+python garmin_fit_import.py --only workout
+python garmin_fit_import.py --only activity
 
 # Wait longer between uploads (default 1 second)
-python garmin_fit_import.py ~/fit_files --delay 3
+python garmin_fit_import.py --delay 3
+
+# Use a different folder
+python garmin_fit_import.py ~/Downloads/plan_workouts
+
+# Import a single file
+python garmin_fit_import.py fit_files/2026-11-25-running-7KMEasy.fit
 ```
+
+> **Windows:** Command Prompt doesn't expand `~`. The script handles it, but you can also use `%USERPROFILE%\fit_files` or a relative path like `fit_files\run.fit`.
+
+If `fit_files` doesn't exist yet, the first run creates it and tells you to add your files.
 
 ### Options
 
 | Option | Description |
 |---|---|
-| `folder` | Folder containing `.fit` files (searched recursively) |
+| `folder` | A `.fit` file, or a folder of `.fit` files searched recursively (default: `fit_files` next to the script) |
 | `--dry-run` | Parse and show results without uploading |
 | `--only {workout,activity}` | Import only one kind of file |
 | `--delay SECONDS` | Pause between uploads (default `1.0`) |
